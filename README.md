@@ -1,4 +1,4 @@
-# Overview
+# Overvie
 Bytlyn is a semester long project where users can put their name on a restaurant waitlist. The purpose of this project is to help less time waiting at the restaurant.
 
 Please visit www.bytlyn.com or see instruction below to run bytlyn on localhost. 
