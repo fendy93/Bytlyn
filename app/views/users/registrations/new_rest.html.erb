@@ -1,0 +1,44 @@
+<body class="signup">
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+                <%= form_for(resource, as: resource_name, url: create_restaurant_path) do |f| %>
+                    
+                    <%= devise_error_messages! %>
+                    <!-- CREATING DEVISE ERROR MESSAGE -->
+                    <% flash.each do |name, msg| %>
+                        <% if msg.class == Array %>
+                            <% msg.each do |message| %>
+                                <div class="alert alert-danger">
+                                    <%= content_tag :div, message, :id => "flash_#{}" %>
+                                </div>
+                            <% end %>
+                        <% else %>
+                            <%= content_tag :div, msg, :id => "flash_#{}" %>
+                        <% end %>
+                    <% end %>
+
+                    <!-- CONTINUE WITH THE FORM -->
+                    <div class="page-header">Sign Up - Restaurant</div>
+                    <span class="info">Full Name</span>
+                    <%= f.text_field :name, :class => 'modern' , required: true%>
+                    <span class="info">Password</span>
+                    <% if @minimum_password_length %>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em>
+                    <% end %><br />
+                    <%= f.password_field :password, autocomplete: "off", :class => 'modern', required: true %><br>
+                    <span class="info">Password Confirmation</span>
+                    <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'modern', required: true %><br>
+                    <span class="info">Email</span>
+                    <%= f.email_field :email, :class => 'modern', required: true %>
+                    <span class="agreement">By signing up, I agree to Bytlyn's Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</span><br><br>
+                     <div class="actions">
+                    <!-- <button class="btn btn-bytlyn btn-max">Sign Up</button> -->
+                    <%= f.submit "Sign Up", :class => 'btn btn-bytlyn btn-max' %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</main>

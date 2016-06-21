@@ -1,0 +1,82 @@
+body.profile {
+	main {
+		background-color: @gray-lighter;
+		.parallax-container {
+			z-index: 0;
+			height: 300px;
+			.overlay-dark();
+		}
+		.wrapper-left {
+			background-color: @white;
+			box-shadow: 0 1px 2px @shadow;
+			display: inline-block;
+			width: 100%;
+			padding: 10px;
+			width: 100%;
+			color: @white;
+			.fa {
+				min-width: 25px;
+			}
+		}
+		.wrapper-right {
+			background-color: @white;
+			box-shadow: 0 1px 2px @shadow;
+			display: inline-block;
+			width: 100%;
+			color: @gray-dark;
+			padding: 50px 0 200px 0;
+
+			.header {
+				font-size: 60px;
+				padding-bottom: 50px;
+				font-family: 'Poiret One', cursive;
+			}
+
+			.information-wrapper {
+				margin-top: 30px;
+				.sub-header {
+					font-size: 12px;
+					color: @gray-light;
+				}
+				.content {
+					font-size: 20px;
+					color: @gray-dark;
+					margin-bottom: 15px;
+				}
+				.content-small {
+					font-size: 14px;
+				}
+			}
+			.profile-photo {
+				width: 100%;
+				border: 1px solid @bytlyn;
+				.border-radius(50%);
+				padding: 10px;
+			}
+			.email {
+				margin: 30px 0;
+			}
+			.box-option {
+				font-size: 14px;
+				margin-bottom: 30px;
+			}
+			.payment-method {
+				margin-bottom: 50px;
+			}
+			.photo-wrapper {
+				.change-button {
+					position: absolute;
+					text-align: center;
+					cursor: pointer;
+					width: 50px;
+					height: 50px;
+					font-size: 16px;
+					color: @white;
+					top: 50%;
+					left: 50%;
+					transform: translate3d(80%,100%,0);
+				}
+			}
+		}
+	}
+}

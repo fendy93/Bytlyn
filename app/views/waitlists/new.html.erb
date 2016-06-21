@@ -1,0 +1,37 @@
+<body class="signup">
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+                <div class="page-header">Create new waitlist</div>
+                <% if flash[:error] %>
+                  <div class="error"><%= flash[:error] %></div><br>
+                <% end %>
+                <%= form_for @waitlist do |f| %>
+                <p>
+                    <span class="info">Enter number of people:</span>
+                    <%= f.number_field :people, min: 1, :class => "modern" %>
+                </p>
+                <p>   
+                    <% if current_user.id.to_i != params[:rest_id].to_i %>
+                        <%= f.hidden_field :name, :value => current_user.name %>
+                    <% else %>
+                        <span class="info">Name</span>
+                        <%= f.text_field :name, required: true, :class => "modern"%>
+                    <% end %>
+                </p>
+                    <%= f.hidden_field :rest_id, :value => params[:rest_id] %>
+                 <div class="actions">
+                    <br><br>
+                <!-- <button class="btn btn-bytlyn btn-max">Sign Up</button> -->
+                <%= f.submit "Waitlist Now", :class => "btn btn-bytlyn btn-max"%>
+                </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+

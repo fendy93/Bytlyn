@@ -1,0 +1,112 @@
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<%= include_gon %>
+
+<body class="signup">
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+                <div class="page-header">Delivery Checkout</div>
+                <% if flash[:error] %>
+                  <div class="error"><%= flash[:error] %></div><br>
+                <% end %>
+                <% if not params[:cart_id].empty? %>
+                    <%= form_for :delivery do |f| %>
+                    <p>
+                        <span class="info">Phone number</span>
+                        <%= f.text_field :phone, required: true, :class => "modern"%>
+                    </p>
+                    <p>   
+                        <span class="info">Address</span>
+                        <%= f.text_field :address, required: true, :class => "modern"%>
+                    </p>
+                        <%= f.hidden_field :rest_id, :value => params[:rest_id] %>
+                        <%= f.hidden_field :total, :value => params[:total] %>
+                        <%= f.hidden_field :user_id, :value => current_user.id %>
+                        <table class="table table-striped">
+                            <tbody >
+                                <% if not params[:cart_id].empty? %>
+                                    <tr>
+                                        <td>Picture</th>
+                                        <td>Name</th>
+                                        <td>Price</th>
+                                        <td>Qty</th>
+                                    </tr>
+                                    
+                                    <% params[:cart_id].each do |cid|%>
+                                        <tr>
+                                            <% @menu = Menu.find(Cart.find(cid).menu_id) %>
+                                            <td>
+                                                <%= image_tag(@menu.avatar.url(:thumb), :width => '50', :height => '50')%>
+                                            </td>
+                                            <td>
+                                                <!--% name = User.where(id: list.cust_id).first.name %> -->
+                                                <%= @menu.name %>
+                                            </td>
+                                            <td>
+                                                $<%= @menu.price %>
+                                            </td>
+                                            <td>
+                                                <%= Cart.find(cid).qty %>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                <%else %>
+                                    You have no delivery.
+                                <%end %>
+                            </tbody>
+                        </table>
+                        <p>
+                            Total = $<%= params[:total] %>
+                            <!-- <div class="page-header"></div> -->
+                        </p>
+                        <p>
+                            <div class="page-header">Payment Details</div>
+                        </p>
+                        <div id="payment-form"></div>
+                        <div class="actions">
+                            <br><br>
+                            <div class="wait"> 
+                                Please wait... 
+                                Refresh if it takes too long
+                            </div>
+                            <%= f.submit "Checkout", :class => "btn btn-bytlyn btn-max", disabled: true%>
+                        </div>
+                    <% end %>
+                    
+                <%else %>
+                    You have no delivery.
+                <%end %>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+// We generated a client token for you so you can test out this code
+// immediately. In a production-ready integration, you will need to
+// generate a client token on your server (see section below).
+$( document ).ready(function() {
+    $.getScript( "https://js.braintreegateway.com/v2/braintree.js", function() {
+        if (braintree == undefined || gon.client_token == undefined) {
+            window.location.reload(true)
+        } else {
+            braintree.setup(gon.client_token, "dropin", {
+              container: "payment-form",
+              onReady: function() {
+                 $(".wait").html("")
+                 $(".btn-bytlyn").attr("disabled",false)
+              }
+            });
+        }
+    });
+
+});
+</script>
+
+
+                    
+
+
+
+
+  

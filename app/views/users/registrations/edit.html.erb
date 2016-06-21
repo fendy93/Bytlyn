@@ -1,0 +1,83 @@
+<body class="profile">
+<div class="loading-page"></div>
+<main>
+  <div class="parallax-container">
+      <div class="parallax"><img src="build/img/stock/cover-user.jpg" class="width-full" ></div>
+      <div class="text text-center">
+        <h1> <%=current_user.name %> </h1>
+      </div>
+    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="wrapper-left">
+          <div class="side-pannel">
+            <a href="profile" class="tab"><span class="fa fa-home"></span> Home</a>
+            <%if !current_user.rest %>
+                <a href="favorites" class="tab"><span class="fa fa-star"></span> Favorite</a>
+            <%end%>
+            <a href="/waitlists"class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+            <a href="delivery"class="tab"><span class="fa fa-rocket"></span> Delivery</a>
+            <a href="/waitlist_history"class="tab"><span class="fa fa-history"></span>History</a>
+            <a href="setting"class="tab chosen"><span class="fa fa-cog"></span>Setting</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <div class="wrapper-right">
+          <div class="col-xs-12 col-xs-offset-0 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+            <div class="photo-wrapper">
+              <% imgurl = "/images/original/<?=$current_user.avatar_file_name?>" %>
+              <!-- <img src="current_user.avatar.url(:medium)" class="profile-photo"/> -->
+              <!-- <div class="profile-photo"> -->
+                <%= image_tag current_user.avatar.url(:medium), :class => 'profile-photo' %>
+              <!-- </div> -->
+              <div class="change-photo-button">
+                <div class="fa fa-camera"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-xs-offset-0 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+            <br>
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                      <%if flash[:errors] != nil %>
+                        <% flash[:errors].each do |error| %>
+                          <div class="alert alert-danger">
+                            <%= error %>
+                          </div>
+                        <%end%>
+                      <%end%>
+                        <span class="info">Full Name</span>
+                        <%= f.text_field :name, :class => 'modern' %>
+
+                        <span class="info">Email</span>
+                        <%= f.email_field :email, :class => 'modern' %>
+
+                      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                      <% end %>
+
+                        <span class="info">Password <i>(leave blank if you don't want to change it)</i></span><br>
+                        <%= f.password_field :password, autocomplete: "off", :class => 'modern'  %>
+
+                        <span class="info">Password Confirmation</span>
+                        <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'modern'  %>
+
+                        <span class="info">Current Password <i> (required for verification) </i></span>
+                        <%= f.password_field :current_password, autocomplete: "off", :class => 'modern', :required => true %>
+                      
+                        <span class="info">Picture</span>
+                        <%= f.file_field :avatar, :class => 'modern'%><br />
+
+                      <!-- <div><%= image_tag current_user.avatar.url(:medium) %><br></div> -->
+                      <div class="action">
+                        <%= f.submit "Update", :class => 'btn btn-max btn-bytlyn' %>
+                      </div>
+                    <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+

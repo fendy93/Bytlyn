@@ -1,0 +1,74 @@
+<body class="index">
+<div class="loading-page"></div>
+<main>
+	<section class="section-one text-center">
+		<div class="wrapper-section">
+			<div class="title center-all">
+				Craving for <span id="typed">Burger</span>
+			</div>
+			
+	        <%= form_tag("/restaurants", method: "get", :id => "myform", :class => "center-all")do %>
+	            <input id="input" class="modern search-bar" type="text" name="key" onkeydown="if (event.keyCode == 13 && $('#myform #input').val().length != 0) { document.myform.submit(); return false;}" placeholder="Search for the food you want"></input>
+	        <% end %>
+    	</div>
+	</section>
+	<section class="section-two">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+					<div class="text-center">
+						<div id="yt-player"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="section-three">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="wrapper-left">
+						<div class="title">
+							<h2>Waitlist!</h2>
+							Don't waste your precious time to wait.<br>
+							<h1>
+								<span class="fa fa-user"></span>
+								<span class="fa fa-user"></span>
+								<span class="fa fa-user"></span>
+								<span class="fa fa-arrow-right"></span>
+								<span class="fa fa-cutlery"></span>
+							</h1>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="wrapper-right">
+						<div class="title">
+							<h2>Delivery!</h2>
+							Let them take your order to your house<br>
+							<h1>
+								<span class="fa fa-cutlery"></span>
+								<span class="fa fa-arrow-right"></span>
+								<span class="fa fa-motorcycle"></span>
+								<span class="fa fa-arrow-right"></span>
+								<span class="fa fa-home"></span>
+							</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="section-four">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+					<div class="text-center">
+						<h1>Interested? Sign-up now! :)</h1>
+						<a href="signup" class="btn btn-radius btn-bytlyn">Sign Up</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

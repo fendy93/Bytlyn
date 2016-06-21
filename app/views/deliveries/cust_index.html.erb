@@ -1,0 +1,122 @@
+<body class="profile">
+<div class="loading-page"></div>
+<main>
+  <div class="parallax-container">
+      <div class="parallax"><img src="build/img/stock/cover-user.jpg" class="width-full" ></div>
+      <div class="text text-center">
+        <h1> <%=current_user.name %> </h1>
+      </div>
+    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="wrapper-left">
+          <div class="side-pannel">
+            <a href="profile" class="tab"><span class="fa fa-home"></span> Home</a>
+            <%if !current_user.rest %>
+                <a href="favorites" class="tab"><span class="fa fa-star"></span> Favorite</a>
+            <%end%>
+            <a href="/waitlists"class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+    
+            <%if @history %>
+                <a href="delivery"class="tab"><span class="fa fa-rocket"></span> Delivery</a>
+            <%else %>
+                <a href="delivery"class="tab chosen"><span class="fa fa-rocket"></span> Delivery</a>
+            <%end%>
+
+            <%if @history %>
+              <a href="/waitlist_history"class="tab chosen"><span class="fa fa-history"></span>History</a>
+            <%else %>
+              <a href="/waitlist_history"class="tab"><span class="fa fa-history"></span>History</a>
+            <%end %>
+            <a href="setting"class="tab"><span class="fa fa-cog"></span>Setting</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <div class="wrapper-right">
+          <% if @history %>
+          <ul class="nav nav-tabs">
+            <li><a href="/waitlist_history">Waitlist History</a></li>
+            <li class="active"><a href="/delivery_history">Delivery History</a></li>
+          </ul>
+          <%end%>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <% if flash[:error] %>
+              <div class="alert alert-danger"><%= flash[:error] %></div>
+            <% end %>
+          </div>
+          <% if not @deliveries.empty? %>
+            <% @deliveries.each do |delivery_and_cart| %>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                  <div class="payment-wrapper">
+                    <% delivery = delivery_and_cart[:delivery] %>
+                    <% menus = delivery_and_cart[:cart] %>
+                    <div class="payment-summary box-option">
+                      <img src="build/img/stock/restaurant.jpg"/>
+                      <div class="text">
+                        <% name = User.where(id: delivery.rest_id).first.name %>
+                          
+                        Restaurant <%= name %><br>
+                        Total: $<%= delivery.total%><br>
+                        <%= Delivery.status_string(delivery.status) %><br>
+                      </div>
+                    </div>
+                    <div class="payment-detail">
+                      <div class="payment-content-wrapper">
+                        <strong><%= User.where(id: delivery.rest_id).first.name %></strong><br>
+                        <% timePlaced = delivery.created_at.in_time_zone("Pacific Time (US & Canada)") %>
+                        <% month = timePlaced.strftime("%B")%>
+                        <% date = timePlaced.strftime("%d")%>
+                        <% time = timePlaced.strftime("%I:%M %p") %>
+                        Order placed on <%=month[0..2]%> <%=date%>, <%=time%>
+                      </div>
+                      <div class="payment-content-wrapper">
+                        <strong><%= User.find(delivery.user_id).name %></strong><br>
+                        <%= delivery.address %><br>
+                        <%= delivery.phone %>
+                      </div>
+                      <div class="payment-content-wrapper">
+                        <%menus.each do |menu| %>
+                          <div class="text-left">
+                            <strong><%= menu[:name] %></strong><span class="payment-count"> x <%= menu[:qty] %></span>
+                          </div>
+                          <div class="text-right">
+                            $ <%= menu[:price]%>
+                          </div>
+                        <%end%>
+                      </div>
+                      <div class="payment-content-wrapper">
+                        <div class="text-left">
+                          Subtotal<br>          
+                          Delivery Fee<br>
+                        </div>
+                        <div class="text-right">
+                          $<%=delivery.total%><br>
+                          <span class="payment-shipping">Free</span>
+                        </div>
+                      </div>
+                      <div class="payment-content-wrapper">
+                        <div class="text-left">
+                          <strong>TOTAL</strong>
+                        </div>
+                        <div class="text-right">
+                          <strong>$<%=delivery.total%></strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+          <%else %>
+            <div class="alert alert-danger">
+              You have no pending delivery
+            </div>
+          <%end %>
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

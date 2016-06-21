@@ -1,0 +1,20 @@
+<%= form_for(@menu) do |f| %>
+  <% if @menu.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@menu.errors.count, "error") %> prohibited this menu from being saved:</h2>
+
+      <ul>
+      <% @menu.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  Rest ID: <%= f.text_field :rest_id %><br />
+  Name : <%= f.text_field :name %><br />
+  Description : <%= f.text_area :description %><br />
+  Price : <%= f.text_area :price %><br />
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

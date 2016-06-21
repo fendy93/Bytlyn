@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="../testtest/1.signup_page">signup-page</a></td></tr>
+<tr><td><a href="test_suite">signup-user</a></td></tr>
+<tr><td><a href="test_suite2">signup-rest</a></td></tr>
+<tr><td><a href="test_suite3">login-user</a></td></tr>
+<tr><td><a href="test_suite4">login-rest</a></td></tr>
+<tr><td><a href="test_suite5">detail-check-profile-user</a></td></tr>
+<tr><td><a href="test_suite6">check-waitlist-user</a></td></tr>
+<tr><td><a href="test_suite7">check-waitlist-restaurant</a></td></tr>
+<tr><td><a href="test_suite8">rest-make-waitlist</a></td></tr>
+<tr><td><a href="test_suite9">rest-make-menu</a></td></tr>
+<tr><td><a href="test_suite10">user-search-test</a></td></tr>
+<tr><td><a href="test_suite11">non-user-search-test</a></td></tr>
+<tr><td><a href="test_suite12">signup-user-fail-password</a></td></tr>
+<tr><td><a href="test_suite13">signup-user-2</a></td></tr>
+</tbody></table>
+</body>
+</html>

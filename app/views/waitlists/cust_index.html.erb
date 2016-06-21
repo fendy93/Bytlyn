@@ -1,0 +1,85 @@
+<body class="profile">
+<div class="loading-page"></div>
+<main>
+  <div class="parallax-container">
+      <div class="parallax"><img src="build/img/stock/cover-user.jpg" class="width-full" ></div>
+      <div class="text text-center">
+        <h1> <%=current_user.name %> </h1>
+      </div>
+    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="wrapper-left">
+          <div class="side-pannel">
+            <a href="profile" class="tab"><span class="fa fa-home"></span> Home</a>
+            <%if !current_user.rest %>
+                <a href="favorites" class="tab"><span class="fa fa-star"></span> Favorite</a>
+            <%end%>
+            <%if @history %>
+              <a href="/waitlists"class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+            <%else %>
+              <a href="/waitlists"class="tab chosen"><span class="fa fa-hourglass"></span> Waitlist</a>
+            <%end %>
+            <a href="delivery"class="tab"><span class="fa fa-rocket"></span> Delivery</a>
+            <%if @history %>
+              <a href="/waitlist_history"class="tab chosen"><span class="fa fa-history"></span>History</a>
+            <%else %>
+              <a href="/waitlist_history"class="tab"><span class="fa fa-history"></span>History</a>
+            <%end %>
+            <a href="setting"class="tab"><span class="fa fa-cog"></span>Setting</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <div class="wrapper-right">
+          <% if @history %>
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="/waitlist_history">Waitlist History</a></li>
+              <li><a href="/delivery_history">Delivery History</a></li>
+            </ul>
+          <%end%>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <% if flash[:error] %>
+              <div class="alert alert-danger"><%= flash[:error] %></div>
+            <% end %>
+          </div>
+          <% if not @waitlists.empty? %>
+            <% @waitlists.each do |waitlist| %>
+                <% list = waitlist[:list] %>
+                <% pos = waitlist[:position] %>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                  <a href="#">
+                    <div class="box-option">
+                      <img src="build/img/stock/restaurant.jpg"/>
+                      <div class="text">
+                        <% name = User.where(id: list.rest_id).first.name %>
+                        Restaurant <%= name %><br>
+                        <%= list.people %> people<br>
+                        <%if !@history %>
+                          Position: <%= pos %> <br>
+                          <button class="btn btn-red">
+                            <%= link_to 'Cancel', list, controller: 'waitlists', action: 'destroy',method: :delete%>
+                          </button>
+                        <% else %>
+                          Status: <%= Waitlist.status_string(list.status) %>
+                        <%end%>
+
+                      </div>
+                    </div>
+                  </a>
+                </div>
+            <% end %>
+          <%else %>
+            <div class="alert alert-danger">
+              You are not waitlisted to any restaurant.
+            </div>
+          <%end %>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

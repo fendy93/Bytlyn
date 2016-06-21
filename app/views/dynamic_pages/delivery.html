@@ -1,0 +1,109 @@
+<body class="profile">
+<div class="loading-page"></div>
+<main>
+	<div class="parallax-container">
+    	<div class="parallax"><img src="build/img/stock/cover-user.jpg" class="width-full" ></div>
+    	<div class="text text-center">
+    		<h1> <%=current_user.name %> </h1>
+    	</div>
+    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<div class="wrapper-left">
+					<div class="side-pannel">
+						<a href="/profile" class="tab"><span class="fa fa-home"></span> Home</a>
+	                    <a href="/favorites" class="tab"><span class="fa fa-star"></span> Favorite</a>
+	                    <a href="/waitlists"class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+	                    <a href="/delivery"class="tab chosen"><span class="fa fa-rocket"></span> Delivery</a>
+	                    <a href="/payment"class="tab"><span class="fa fa-credit-card"></span>Payment</a>
+	                    <a href="/setting"class="tab"><span class="fa fa-cog"></span>Setting</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+				<div class="wrapper-right">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="header text-center">
+							Delivery<br>
+						</div>
+					</div>
+					<% if !current_user.rest %>
+						<% @delivery = Delivery.get_delivery_cust(current_user.id) %>
+						<% count = 0 %>
+						<% @delivery.each do |del| %>
+						<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+							<% count += 1 %>
+							<a href="#">
+								<div class="box-option">
+									<img src="build/img/stock/restaurant.jpg"/>
+									<div class="text">
+										Order #<%= count%><br>
+										Total orders: <br>
+										<% @order = Delivery.get_order(del) %>
+										<% @order.each do |ord| %>
+											<%= ord %><br>
+										<%end%>
+										Total price: $<%= del.total %>
+									</div>
+								</div>
+							</a>
+						</div>
+						<%end%>
+					<% else %>
+						<% @delivery = Delivery.get_delivery_rest(current_user.id) %>
+						<!-- <%= @delivery %> -->
+						<% count = 0 %>
+						<% @delivery.each do |del| %>
+						<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+							<% count += 1 %>
+							<a href="#">
+								<div class="box-option">
+									<img src="build/img/stock/restaurant.jpg"/>
+									<div class="text">
+										Order #<%= count%><br>
+										Total orders: <br>
+										<% @order = Delivery.get_order(del) %>
+										<% @order.each do |ord| %>
+											<%= ord %><br>
+										<%end%>
+										Total price: $<%= del.total %>
+										Phone: <%= del.phone %>
+										Address: <%= del.address %> 
+										<%= link_to 'Cancel', del, controller: 'deliveries', action: 'destroy',method: :delete%>
+									</div>
+								</div>
+							</a>
+						</div>
+						<%end%>
+						
+					<%end%>
+					<div class="col-xs-offset-0 col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+						<div class="payment-method">
+							<div class="card card-default">
+								<div class="card-nickname">
+									<span id="card-number">Bofa CC</span>
+								</div>
+								<div class="card-number">
+									Ending in <span id="card-number">1234</span>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-nickname">
+									<span id="card-number">City CC</span>
+								</div>
+								<div class="card-number">
+									Ending in <span id="card-number">1234</span>
+								</div>
+							</div>
+							<img src="build/img/stock/cc-logos.png" class="logos"/>
+						</div>
+					</div>
+					<div class="col-xs-offset-0 col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+						<button class="btn btn-bytlyn btn-max">Pay Now</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

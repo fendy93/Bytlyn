@@ -1,0 +1,88 @@
+.shopping-cart {
+    
+    svg {
+        position: absolute;
+        top: 43px;
+        right: 48%;
+        display: none;
+    }
+    .shopping-cart-title {
+        cursor: pointer;
+        .smooth();
+    }
+    .shopping-cart-wrapper {
+        position: absolute;
+        display: inline-block;
+        top: 53px;
+        right: 0;
+        display: none;
+
+        width: 400px;
+        background-color: @white;
+        box-shadow: 0 2px 5px @black;
+
+        .single-cart {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            cursor: pointer;
+
+            &.empty-cart {
+                color: @gray-dark;
+                cursor: default;
+                font-size: 12px;
+            }
+            &.japanese-background {
+                .overlay-dark();
+                background-image: url("../img/stock/japanese.jpg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: bottom center;
+            }
+            .cart-restaurant {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                font-size: 30px;
+            }
+            .cart-order-id {
+                position: absolute;
+                top: 55px;
+                left: 20px;
+                font-size: 12px;
+                color: @gray-lighter;
+            }
+            .cart-amount {
+                position: absolute;
+                top: 30px;
+                right: 20px;
+                font-size: 30px;
+                color: @green-fancy;
+            }
+        }
+    }
+}
+
+// for typed.js 
+
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}

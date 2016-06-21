@@ -1,0 +1,10 @@
+<tr>
+  <td>
+    <% name = Users.find_by(id: @list.cust_id).name %>
+    <%= name %>
+  </td>
+  <td>
+    <%= @list.people %>
+  </td>
+</tr>
+<% end -%>

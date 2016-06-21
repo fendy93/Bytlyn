@@ -1,0 +1,259 @@
+<body class="profile">
+<main>
+    <div class="parallax-container">
+        <div class="parallax"><img src="build/img/stock/restaurant3.jpg" class="width-full" ></div>
+        <div class="text">
+            <h1> Restaurant List </h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+        <% if user_signed_in? && (!current_user.rest || Restaurant.find_by_user_id(current_user.id) != nil) %>
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                <div class="wrapper-left">
+                    <div class="side-pannel">
+                        <a href="profile" class="tab"><span class="fa fa-home"></span> Home</a>
+                        <%if !current_user.rest %>
+                            <a href="favorites" class="tab"><span class="fa fa-star"></span> Favorite</a>
+                        <%end%>
+                        <a href="/waitlists"class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+                        <a href="delivery"class="tab"><span class="fa fa-rocket"></span> Delivery</a>
+                        <a href="/waitlist_history"class="tab"><span class="fa fa-history"></span>History</a>
+                        <a href="setting"class="tab"><span class="fa fa-cog"></span>Setting</a>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+        <% if user_signed_in? %>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <% else %>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <% end %>
+            <div class="wrapper-right text-center">
+                <% if flash[:notice] -%>
+                    <p class='alert alert-success text-center'><%=h flash[:notice] %></p>
+                <% end %>
+                <% if @restaurants.blank?%>
+                    <div class="alert alert-danger">
+                    No match search result is found!
+                    <ul style="list-style-type: circle;">
+                        <li>Make sure all words are spelled correctly
+                        <li>Try different keywords
+                    </ul>
+                    </div>
+                <% end %>
+                <%= form_tag("/restaurants", method: "get", :id => "myform")do %>
+                    
+                    <div class="">Search what you're looking for here!</div>
+                    <input id="input" class="modern" type="text" name="key" value="<%=@key%>"onkeydown="if (event.keyCode == 13 && $('#myform #input').val().length != 0) { document.myform.submit(); return false; }"></input>
+
+                    <div class="advanced-search-button info info-small" toggle="advanced-search">
+                        <span class="fa fa-plus-square-o"></span> Advanced Search
+                    </div>
+            
+                    <div class="advanced-search-wrapper text-center">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="nearby-wrapper">
+                                <span class="info">Nearby</span>
+                                <% if params[:nearby] == "true" %>
+                                    <input id="nearby" type="checkbox" name="nearby" value="true" checked>
+                                <% else %>
+                                    <input id="nearby" type="checkbox" name="nearby" value="true">
+                                <% end %>
+                                <input id="zip" type="hidden" name="zip" value="">
+                                <script>
+                                    jQuery(window).ready(function(){
+                                                         
+                                        console.log("docready");
+                                     jQuery("#nearby").click(initiate_geolocation);
+                                    });
+                                                         
+                                     function initiate_geolocation() {
+                                         console.log("initiate");
+                                         if ($("#nearby").is(":checked")) {
+                                             //set location
+                                             navigator.geolocation.getCurrentPosition(handle_geolocation_query);
+                                         } else {
+                                             //clear location
+                                             $("#zip").val("");
+                                         }
+                                     }
+                                
+                                    function handle_geolocation_query(position){
+                                        console.log("handlegeo");
+                                        console.log(position.coords.latitude);
+                                        console.log(position.coords.longitude);
+                                        var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&sensor=true";
+                                        console.log(url);
+                                        $.get(url, processData);
+                                    }
+                                    
+                                    function processData(data)
+                                    {
+                                        console.log("processdata");
+                                        $("#zip").val(data.results[0].address_components[7].long_name);
+                                        
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="opennow-wrapper">
+                                <span class="info">Open Now</span>
+                                <% if params[:opennow] == "true" %>
+                                <input type="checkbox" name="opennow" value="true" checked>
+                                <% else %>
+                                    <input type="checkbox" name="opennow" value="true">
+                                <% end %>
+                                <% timeNow = Time.now.in_time_zone("Pacific Time (US & Canada)") %>
+                                <input id="time" type="hidden" name="time" value="<%= timeNow.strftime("%H:%M") %>">
+                                <input id="day" type="hidden" name="day" value="<%= (timeNow.wday - 1)%7 + 1%>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="price-wrapper">
+                                <span class="info">Price</span>
+                                <% if @checkprice == "true" %>
+                                    <input type="checkbox" name="checkprice" value="true" checked>
+                                <% else %>
+                                    <input type="checkbox" name="checkprice" value="true">
+                                <% end %>
+                                <input type="range" name="price" min="1" max="4" value="<%=@price%>"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="price-wrapper">
+                                <span class="info">Ratings</span>
+                                <% if @checkrating == "true" %>
+                                    <input type="checkbox" name="checkrating" value="true" checked>
+                                <% else %>
+                                    <input type="checkbox" name="checkrating" value="true">
+                                <% end %>
+                                
+                                <input type="range" name="rating" min="1" max="5" value="<%=@rating%>"/>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+                            <div class="category-wrapper">
+                                <span class="info">Category</span>
+                                <select name="category" id="category" class="modern-select" value="<%=@category%>"> 
+                                    <% if @category == "" %>
+                                        <option value="" checked>None</option>
+                                    <% else %>
+                                        <option value="">None</option>
+                                    <% end %>
+
+                                    <% if @category == "American" %>
+                                        <option value="American" checked>American</option>
+                                    <% else %>
+                                        <option value="American">American</option>
+                                    <% end %>
+
+                                    <% if @category == "Italian" %>
+                                        <option value="Italian" checked>Italian</option>
+                                    <% else %>
+                                        <option value="Italian">Italian</option>
+                                    <% end %>
+
+                                    <% if @category == "French" %>
+                                        <option value="French" checked>French</option>
+                                    <% else %>
+                                        <option value="French">French</option>
+                                    <% end %>
+
+                                    <% if @category == "Japanese" %>
+                                        <option value="Japanese" checked>Japanese</option>
+                                    <% else %>
+                                        <option value="Japanese">Japanese</option>
+                                    <% end %>
+
+                                    <% if @category == "Chinese" %>
+                                        <option value="Chinese" checked>Chinese</option>
+                                    <% else %>
+                                        <option value="Chinese">Chinese</option>
+                                    <% end %>
+
+                                    <% if @category == "Asian" %>
+                                        <option value="Asian" checked>Asian</option>
+                                    <% else %>
+                                        <option value="Asian">Asian</option>
+                                    <% end %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <input type="submit" class="btn btn-bytlyn" value="Search"></input>
+                    </div>
+                <% end %>
+                <% if !@restaurants.blank?%>
+                    <% @restaurants.each do |restaurant| %>
+                        <% if @users.find_by_id(restaurant.user_id) != nil %>
+                        <div class="restaurant-list-wrapper">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="card-view">
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                        <div class="row">
+                                            <%= image_tag(@users.find_by_id(restaurant.user_id).avatar.url(:medium), :class => "width-full")%>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                        <div class="card-content">
+                                            <div class="card-button">
+                                            <% if (user_signed_in? && !current_user.rest) %>
+                                            <a class="btn btn-bytlyn" href="./waitlists_new?rest_id=<%= restaurant.user_id %>">Waitlist</a>
+                                            <% elsif !user_signed_in? %>
+                                                <a class="btn btn-bytlyn" href="./login">Waitlist</a>
+                                            <% end %>
+                                        </div>
+                                        <a href = './restaurant_page?rest_id=<%= restaurant.user_id %>' class="card-header">
+                                            <%= @users.find_by_id(restaurant.user_id).name %>
+                                        </a>
+                                        <div class="card-info">Price: 
+                                            <% for i in 1..restaurant.price.to_i do%>
+                                                $
+                                            <% end%>
+                                        </div>
+                                        <div class="card-rating">
+                                            <% for i in 1..(Rating.average_rating(restaurant.id)+0.99).to_i.to_i do %>
+                                                <span class="fa fa-star"></span>
+                                            <% end %>
+                                            <% for i in (Rating.average_rating(restaurant.id)+0.99).to_i.to_i+1..5 do %>
+                                                <span class="fa fa-star-o"></span>
+                                            <% end %>
+                                        </div>
+                                        <div class="card-time">
+                                            <% timeNow = Time.now.in_time_zone("Pacific Time (US & Canada)") %>
+                                            <% hourDay =  Hour.where(rest_id: restaurant.user_id).where(day_id: (timeNow.wday - 1)%7 + 1)%>
+                                            <% if !hourDay.blank? && hourDay.first.open != nil && hourDay.first.close != nil && hourDay.first.close.strftime("%H:%M") > timeNow.strftime("%H:%M") && hourDay.first.open.strftime("%H:%M") < timeNow.strftime("%H:%M") %>
+
+                                                Open now!
+                                            <%else%>
+                                                Currently Close.
+                                            <%end%>
+
+                                        </div>
+                                        <% if (user_signed_in? && !current_user.rest) %>
+                                            <% if Favorite.where(cust_id: current_user.id, rest_id: restaurant.user_id).empty? %>
+                                                <form action="./favorites_new?rest_id=<%= restaurant.user_id %>" method="POST">
+                                                <input type="submit" class="btn btn-bytlyn" value ="Add Favorite"></input>
+                                                </form>
+                                                <!-- <a class="btn btn-bytlyn" data-method="post" href="./favorite?user_id=<%= restaurant.user_id %>">Add Favorite</a> -->
+                                               
+                                            <%else%>
+                                                <i>Your Favorite</i>
+                                            <%end%>
+                                         <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%end%>
+                    <% end %> <!--end of for loop-->
+                <% end %> 
+            </div>
+        </div>
+        </div>
+    </div>
+</main>

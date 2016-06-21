@@ -1,0 +1,59 @@
+<body class="signup">
+<main>
+    <div class="container">
+        <div class="row">
+          <div class="text-center page-header">Edit Restaurant Details</div>
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+              <% if flash[:error] %>
+                      <div class="error"><%= flash[:error] %></div><br>
+                    <% end %>
+              
+              Fill this form below about details of your restaurant<br><br>
+
+              <%= form_for @restaurant do |f| %>
+              <span class="info">Description</span>
+              <%= f.text_field :description,  size: "24x6", required: true, :class => 'modern' %>
+              
+              <span class="info">Price</span>
+              <%= f.select :price, options_for_select([['Cheap - $', 1], ['Affordable - $$', 2],['Expensive - $$$', 3], ['Very Expensive - $$$$', 4]])%>
+              <span class="info">Address</span>
+              <%= f.text_field :address, required: true, :class => 'modern' %>
+
+              <span class="info">City</span>
+              <%= f.text_field :city, required: true, :class => 'modern'  %>
+
+              <span class="info">Zipcode</span>
+              <%= f.text_field :zip, required: true, :class => 'modern'  %>
+            
+              <span class="info">Restaurant Type</span>
+              <%= f.select :rest_type, options_for_select(['American', 'Italian', 'French', 'Japanese', 'Chinese', 'Asian']) %>
+
+              <div class="h3"> Opening Hours </div>
+              Leave blank if closed for the day
+              <% days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %>
+              <% i = 0 %>
+              <p>
+                  <%= f.fields_for :hours do |builder| %>
+                      <p>
+                        <%=days[i]%> <br>
+                        <%=builder.label :open %>
+                        <%=builder.time_field :open %>
+                        <%=builder.label :close %>
+                        <%=builder.time_field :close %>
+                        <%= builder.hidden_field :rest_id, :value => current_user.id %>
+                        <%= builder.hidden_field :day_id, :value =>  1%>
+                        <%i=i+1%>
+                    </p>
+                  <% end %>
+                  
+              </p>
+
+                <%= f.hidden_field :user_id, :value => current_user.id %>
+                  <%= f.submit "Update Details", :class => 'btn btn-max btn-bytlyn'%>
+              <% end %>
+
+
+              </div>
+        </div>
+    </div>
+</main>

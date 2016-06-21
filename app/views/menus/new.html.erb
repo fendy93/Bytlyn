@@ -1,0 +1,39 @@
+<body class="signup">
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+              <% if flash[:error] %>
+                      <div class="error"><%= flash[:error] %></div><br>
+                    <% end %>
+              <h1>New Menu</h1>
+              fill this form below about details of your menu
+
+              <%= form_for @menu do |f| %>
+              <p>
+                <span class="info">Name</span>
+                <%= f.text_field :name,  size: "24x6", required: true, :class => "modern" %>
+              </p>
+              <p>
+                <span class="info">Description</span>
+                <%= f.text_field :description, :class => "modern" %>
+              </p>
+              <p>
+                <span class="info">Price</span>
+                <%= f.text_field :price, required: true, :class => "modern" %>
+              </p>
+              <p>
+                <span class="info">Picture</span>
+                <%= f.file_field :avatar, :class => "modern" %>
+              </p>
+	              <%= f.hidden_field :rest_id, :value => current_user.id %>
+                <%= f.submit "Create menu", :class => "btn btn-bytlyn btn-max"%>
+              <% end %>
+
+
+              </div>
+        </div>
+    </div>
+</main>
+
+

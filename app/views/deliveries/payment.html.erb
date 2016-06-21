@@ -1,0 +1,86 @@
+<body class="profile">
+<div class="loading-page"></div>
+<main>
+    <div class="parallax-container">
+        <div class="parallax"><img src="build/img/stock/cover-user.jpg" class="width-full" ></div>
+        <div class="text text-center">
+            <h1> <%=current_user.name %> </h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+            <div class="row">
+                <div class="wrapper-left">
+                    <div class="side-pannel">
+                        <a href="/profile" class="tab"><span class="fa fa-home"></span> Home</a>
+                        <a href="/favorite" class="tab"><span class="fa fa-star"></span> Favorite</a>
+                        <a href="/waitlists" class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+                        <a href="/delivery" class="tab"><span class="fa fa-rocket"></span> Delivery</a>
+                        <a href="/payment" class="tab chosen"><span class="fa fa-credit-card"></span>Payment</a>
+                        <a href="/setting" class="tab"><span class="fa fa-cog"></span>Setting</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <div class="wrapper-right">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="header text-center">
+                        Payment<br>
+                    </div>
+                    <div id="payment-form"></div>
+                </div>
+
+                
+
+
+                <div class="col-xs-offset-0 col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+                    <div class="payment-method">
+                        <div class="card card-default">
+                            <div class="card-nickname">
+                                <span id="card-number">Bofa CC</span>
+                            </div>
+                            <div class="card-number">
+                                Ending in <span id="card-number">1234</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-nickname">
+                                <span id="card-number">City CC</span>
+                            </div>
+                            <div class="card-number">
+                                Ending in <span id="card-number">1234</span>
+                            </div>
+                        </div>
+                        <div id="card-add-button" class="card">
+                            <div class="card-nickname">
+                                <span class="fa fa-plus-circle"></span>
+                            </div>
+                        </div>
+                        <img src="build/img/stock/cc-logos.png" class="logos"/>
+                    </div>
+                    <form id="card-add-new" class="text-left">
+                        <span class="info">Card Number</span><br>
+                        <input class="modern" type="text" placeholder="1234 5678 1234 5678"></input><br>
+                        <span class="info">Name on Card</span><br>
+                        <input class="modern" type="password" placeholder="John Smith"></input><br>
+                        <span class="info">Expiration Date</span><br>
+                        <input class="modern" type="text" placeholder="01/2011"></input><br><br>
+                        <button class="btn btn-bytlyn btn-max">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+// We generated a client token for you so you can test out this code
+// immediately. In a production-ready integration, you will need to
+// generate a client token on your server (see section below).
+$( document ).ready(function() {
+    braintree.setup(gon.client_token, "dropin", {
+      container: "payment-form"
+    });
+});
+</script>

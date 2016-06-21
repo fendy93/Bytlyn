@@ -1,0 +1,64 @@
+<body class="restaurant">
+<div class="loading-page"></div>
+<main>
+	<div class="parallax-container">
+    	<div class="parallax"><img src="build/img/stock/restaurant2.jpg" class="width-full" ></div>
+    	<div class="text text-center">
+    		<h1> <%= User.where(id: params[:rest_id]).first.name %> </h1>
+    	</div>
+    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<% if !user_signed_in? || !current_user.rest %>
+					<div class="wrapper-left text-center">
+						<a href="/restaurant_page?rest_id=<%=params[:rest_id] %>" class="btn btn-bytlyn">Restaurant</a><br>
+						<a href="/waitlists_new?rest_id=<%=params[:rest_id] %>" class="btn btn-bytlyn">Waitlist</a><br>
+						<a href="/restaurant_delivery?rest_id=<%=params[:rest_id] %>" class="btn btn-bytlyn">Delivery</a><br>
+						<a href="http://www.opentable.com/" class="btn btn-bytlyn">Reservation</a><br>
+					</div>
+				<%end%>
+			</div>
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+				<div class="wrapper-right text-center">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="h1 text-center">List of menus</div>
+					</div>
+						
+					<% Menu.where(rest_id: params[:rest_id]).each do |menu| %>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+						  	<div class="card-view">
+						  		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-4">
+		                            <div class="row">
+		                    			<%= image_tag menu.avatar.url(:medium), :class => "width-full"%>
+		                            </div>
+		                        </div>
+						  		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-8">
+		                            <div class="card-content">
+		                            	<div class="card-header">
+		                            		<%= menu.name %>
+		                            	</div>
+		                            	<div class="card-content">
+		                            		<%= menu.description %>
+						  					<div class="card-price">$<%= menu.price%></div>
+		                            	</div>
+		                            	<% if user_signed_in? %>
+									  		<% if !current_user.rest %>
+											  	<%= form_for :cart do |f| %>
+							                    	<%= f.hidden_field :rest_id, :value => params[:rest_id] %>
+							                    	<%= f.hidden_field :cust_id, :value =>  current_user.id%>
+							                    	<%= f.hidden_field :menu_id, :value =>  menu.id%>
+								                <%= f.submit "Add to cart", :class => "card-button btn btn-bytlyn"%>
+								                <% end %>
+								            <%end%>
+							            <% end%>
+		                            </div>
+								</div>		
+						  	</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

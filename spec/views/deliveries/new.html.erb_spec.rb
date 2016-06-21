@@ -1,0 +1,33 @@
+require 'rails_helper'
+
+RSpec.describe "deliveries/new", type: :view do
+  before(:each) do
+    assign(:delivery, Delivery.new(
+      :phone => 1,
+      :rest_id => 1,
+      :version => 1,
+      :user_id => 1,
+      :address => "MyString",
+      :total => 1.5
+    ))
+  end
+
+  it "renders new delivery form" do
+    render
+
+    assert_select "form[action=?][method=?]", deliveries_path, "post" do
+
+      assert_select "input#delivery_phone[name=?]", "delivery[phone]"
+
+      assert_select "input#delivery_rest_id[name=?]", "delivery[rest_id]"
+
+      assert_select "input#delivery_version[name=?]", "delivery[version]"
+
+      assert_select "input#delivery_user_id[name=?]", "delivery[user_id]"
+
+      assert_select "input#delivery_address[name=?]", "delivery[address]"
+
+      assert_select "input#delivery_total[name=?]", "delivery[total]"
+    end
+  end
+end

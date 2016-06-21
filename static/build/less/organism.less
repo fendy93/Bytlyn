@@ -1,0 +1,162 @@
+.btn {
+	// size
+	&.btn-max {width: 100%;}
+
+	// shape
+	&.btn-round {.round(@rad-xs);}
+	&.btn-corner {.round(0);}
+
+	// colored button
+	&.btn-white {.colorize(@white); color: @black}
+	&.btn-dark-gray {.colorize(@gray-dark);}
+	&.btn-gray {.colorize(@gray);}
+	&.btn-light-gray {.colorize(@gray-light);}
+	&.btn-red {.colorize(@red);}
+	&.btn-green {.colorize(@green);}
+	&.btn-blue {.colorize(@blue);}
+	&.btn-bytlyn {.colorize(@bytlyn);}
+
+	&:hover, &:focus, &:active {
+		outline: none !important;
+	}
+}
+
+form {
+	color: @gray-dark;
+	.input-custom {
+		.left {
+			position: relative;
+			display: inline-block;
+			margin-right: -5px;
+			.border-left-radius(@rad-xs);
+			padding: 5px 10px;
+			border: 1px solid @gray;
+			background-color: @bytlyn;
+			background-image: -webkit-linear-gradient(lighten(@bytlyn, 10%) 5%, lighten(@bytlyn, 5%) 10%, @bytlyn 100%);
+			
+			color: @white;
+			width: 120px;
+			text-align: center;
+		}
+		.right {
+			.border-right-radius(@rad-xs);
+			padding: 5px 10px;
+			border: 1px solid @gray;
+			width: ~'calc(100% - 120px)';
+			&:hover, &:focus, &:active {
+				outline: none;
+			}
+		}
+	}
+	.solo {
+		position: relative;
+		.border-left-radius(@rad-xs);
+		.border-right-radius(@rad-xs);
+		padding: 5px 10px;
+		border: 1px solid @gray;
+		&:hover, &:focus, &:active {
+			outline: none;
+			border: 1px solid @gray-dark;
+		}
+	}
+	.info {
+		font-size: 12px;
+		text-align: left;
+		color: @gray-dark;
+	}
+	.modern {
+		padding: 14px 24px;
+		width: 100%;
+		border: 2px inset;
+		margin-bottom: 15px;
+		&:hover, &:focus {
+			outline: none;
+		}
+	}
+}
+
+.box-option {
+	@border-rad: 10px;
+	position: relative;
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	font-size: 40px;
+	color: @white;
+	background-color: @gray-light;
+	cursor: pointer;
+	box-shadow: 0 1px 10px @black-a;
+	.smooth();
+	.border-radius(@border-rad);
+	.overlay-dark-round(@border-rad);
+	img {
+		.border-radius(@border-rad);
+		width: 100%;
+	}
+	&.box-add-new {
+		background-color: @white;
+		font-size: 50px !important;
+		height: 169px;
+		background-color: @white;
+		color: @gray-dark;
+		&::before {
+			background-color: @white;
+		}
+	}
+	&:hover, &:focus {
+		.smooth();
+		&::before {
+			.smooth();
+			background-color: @shadow;
+		}
+	}
+}
+
+.payment-method {
+	display: inline-block;
+	width: 100%;
+	border: 1px solid @gray-dark;
+	padding: 15px;
+
+	.logos {
+		width: 100%;
+	}
+	.card {
+		position: relative;
+		display: inline-block;
+		cursor: pointer;
+		width: 110px;
+		height: 70px;
+		.border-radius(5px);
+		border: 1px solid @gray-dark;
+		margin-bottom: 25px;
+		margin-right: 5px;
+		.card-nickname {
+			position: absolute;
+			display: inline-block;
+			top: 50%;
+			left: 50%;
+			transform: translate3d(-50%, -50%, 0);
+		}
+		.card-number {
+			position: absolute;
+			font-size: 12px;
+			bottom: -20px;
+		}
+		&.card-default {
+			background-color: @gray-light;
+			&::before {
+				content: "Default";
+				font-size: 10px;
+				position: absolute;
+				display: inline-block;
+				top: 50%;
+				left: 50%;
+				transform: translate3d(-50%, ~'calc(-50% - 14px)', 0);
+			}
+		}
+		&:hover {
+			background-color: @gray;
+		}
+	}
+}

@@ -1,0 +1,66 @@
+body.restaurant {
+	main {
+		background-color: @gray-lighter;
+		.restaurant-name {
+			margin-top: 200px;
+			font-size: 40px;
+			color: @white;
+		}
+		.parallax-container {
+			z-index: 0;
+			height: 500px;
+			.overlay-dark();
+		}
+		.wrapper-left {
+			background-color: @white;
+			box-shadow: 0 1px 2px @shadow;
+			padding: 50px 0;
+			button, a {
+				min-width: 150px;
+				margin: 10px auto;
+			}
+		}
+		.wrapper-right {
+			display: inline-block;
+			width: 100%;
+			background-color: @white;
+			box-shadow: 0 1px 2px @shadow;
+			color: @gray-dark;
+			padding: 50px 0 150px 0;
+			.carousel {
+				margin: 0 50px 80px 50px;
+				.thumbnail {
+					width: 100%;
+					cursor: pointer;
+					margin-bottom: 0;
+					img {
+						max-height: 190px;
+					}
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+            .panel {
+                padding:0px;
+                color:@black;
+            }
+			
+			.r-info {
+				margin: 20px 0;
+				&.r-name {
+					
+				}
+				&.r-logo {
+					max-width: 500px;
+				}
+			}
+			.menu-name {
+				font-size: 20px;
+			}
+			.menu-description {
+				color: @gray;
+			}
+		}
+	}
+}

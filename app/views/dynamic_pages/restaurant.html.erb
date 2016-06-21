@@ -1,0 +1,142 @@
+<body class="restaurant">
+<div class="loading-page"></div>
+<main>
+	<div class="parallax-container">
+    	<div class="parallax"><img src="build/img/stock/restaurant2.jpg" class="width-full" ></div>
+    	<div class="text text-center">
+    		<h1> <%= User.where(id: params[:rest_id]).first.name %> </h1>
+    	</div>
+    </div>
+    <div class="container">
+    	<div class="row">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<% if !user_signed_in? || !current_user.rest %>
+				<div class="wrapper-left text-center">
+					<a href="/restaurant_page?rest_id=<%=params[:rest_id] %>" class="btn btn-bytlyn">Restaurant</a><br>
+					<a href="/waitlists_new?rest_id=<%=params[:rest_id] %>" class="btn btn-bytlyn">Waitlist</a><br>
+					<a href="/restaurant_delivery?rest_id=<%=params[:rest_id] %>" class="btn btn-bytlyn">Delivery</a><br>
+					<a href="http://www.opentable.com/" class="btn btn-bytlyn">Reservation</a><br>
+				</div>
+			<%end%>
+		</div>
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+			<div class="wrapper-right text-center">
+				<div class="carousel">
+					<% Menu.where(rest_id: params[:rest_id]).each do |menu| %>
+					  <div>
+					  	<%= image_tag menu.avatar.url(:medium), :class => "thumbnail", width: '285', height: '200' %>
+					  	<div class="menu-name"><%= menu.name %></div>
+						<div class="menu-description"><%= menu.description %></div>
+					  </div>
+					<% end %>
+				</div>
+				<%= image_tag User.where(id: params[:rest_id]).first.avatar.url(:medium), :class => "r-logo center", width: '200', height: '200' %><br>
+				<!-- <img src="build/img/stock/logo-restaurant.jpg" class="r-logo"/> -->
+				<div class="rating-restaurant text-md">
+					<% restaurant = Restaurant.where(user_id: params[:rest_id]).first %>
+                	<% if user_signed_in? && !current_user.rest && !Rating.rate_exist(params[:rest_id],Customer.where(:user_id => current_user.id).pluck(:id)) %>
+                    
+                    	<%= (@rate+0.999).to_i %>
+
+	                    <% cust_id=Customer.where(:user_id => current_user.id).pluck(:id)[0] %>
+	                    <span class="fa fa-star">
+	                    <%= form_tag("/rate", method: "post", :id => "myform", :class => "")do %>
+	                    <input type="hidden" name="rating" value="1"></input>
+	                    <input type="hidden" name="customer_id" value="<%= cust_id %>"></input>
+	                    <input type="hidden" name="restaurant_id" value="<%= params[:rest_id] %>"></input>
+	                    <input type="submit" class="fa fa-star" value="1"></input>
+	                    <% end %></span>
+	                    
+	                    <span class="fa fa-star">
+	                    <%= form_tag("/rate", method: "post", :id => "myform", :class => "")do %>
+	                    <input type="hidden" name="rating" value="2"></input>
+	                    <input type="hidden" name="customer_id" value="<%= cust_id %>"></input>
+	                    <input type="hidden" name="restaurant_id" value="<%= params[:rest_id] %>"></input>
+	                    <input type="submit" class="fa fa-star" value="2"></input>
+	                    <% end %></span>
+	                    
+	                    <span class="fa fa-star">
+	                    <%= form_tag("/rate", method: "post", :id => "myform", :class => "")do %>
+	                    <input type="hidden" name="rating" value="3"></input>
+	                    <input type="hidden" name="customer_id" value="<%= cust_id %>"></input>
+	                    <input type="hidden" name="restaurant_id" value="<%= params[:rest_id] %>"></input>
+	                    <input type="submit" class="fa fa-star" value="3"></input>
+	                    <% end %></span>
+	                    
+	                    <span class="fa fa-star">
+	                    <%= form_tag("/rate", method: "post", :id => "myform", :class => "")do %>
+	                    <input type="hidden" name="rating" value="4"></input>
+	                    <input type="hidden" name="customer_id" value="<%= cust_id %>"></input>
+	                    <input type="hidden" name="restaurant_id" value="<%= params[:rest_id] %>"></input>
+	                    <input type="submit" class="fa fa-star" value="4"></input>
+	                    <% end %></span>
+	                    
+	                    <span class="fa fa-star">
+	                    <%= form_tag("/rate", method: "post", :id => "myform", :class => "")do %>
+	                    <input type="hidden" name="rating" value="5"></input>
+	                    <input type="hidden" name="customer_id" value="<%= cust_id %>"></input>
+	                    <input type="hidden" name="restaurant_id" value="<%= params[:rest_id] %>"></input>
+	                    <input type="submit" class="fa fa-star" value="5"></input>
+	                    <% end %></span>
+	                 <% else %>
+	                    <% for i in 1..(@rate + 0.999).to_i do %>
+	                    	<span class="fa fa-star"></span>
+	                    <% end %>
+	                    <% for i in (@rate + 0.999).to_i+1..5 do %>
+	                    	<span class="fa fa-star-o"></span>
+	                    <% end %>
+	                <% end %>
+                </div>
+				<div class="r-info text-center">
+					<%= restaurant.description %>
+				</div>
+				<div class="r-info text-center">			
+					<%= restaurant.address %> <br>
+					<%= restaurant.city %><br>
+					<%= restaurant.zip %>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+					<table class="table table-striped">
+						<thead>
+						    <tr>
+						      	<td>Day</td>
+						      	<td>Hours</td>
+						    </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Monday</td>
+								<td><%= @monday_time%></td>
+							</tr>
+							<tr>
+								<td>Tuesday</td>
+								<td><%= @tuesday_time%></td>
+							</tr>
+							<tr>
+								<td>Wednesday</td>
+								<td><%= @wednesday_time%></td>
+							</tr>
+							<tr>
+								<td>Thursday</td>
+								<td><%= @thursday_time%></td>
+							</tr>
+							<tr>
+								<td>Friday</td>
+								<td><%= @friday_time%></td>
+							</tr>
+							<tr>
+								<td>Saturday</td>
+								<td><%= @saturday_time%></td>
+							</tr>
+							<tr>
+								<td>Sunday</td>
+								<td><%= @sunday_time%></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    	</div>
+    </div>
+</main>

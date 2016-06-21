@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @delivery.phone %>
+</p>
+
+<p>
+  <strong>Rest:</strong>
+  <%= @delivery.rest_id %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @delivery.version %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @delivery.user_id %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @delivery.address %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @delivery.total %>
+</p>
+
+<%= link_to 'Edit', edit_delivery_path(@delivery) %> |
+<%= link_to 'Back', deliveries_path %>

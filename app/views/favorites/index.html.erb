@@ -1,0 +1,97 @@
+<body class="profile">
+<div class="loading-page"></div>
+<main>
+	<div class="parallax-container">
+    	<div class="parallax"><img src="build/img/stock/cover-user.jpg" class="width-full" ></div>
+    	<div class="text text-center">
+    		<h1> <%=current_user.name %> </h1>
+    	</div>
+    </div>
+	<div class="container">
+        <div class="row">
+    		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    			<div class="wrapper-left">
+    				<div class="side-pannel">
+    					<a href="profile" class="tab"><span class="fa fa-home"></span> Home</a>
+                        <%if !current_user.rest %>
+                            <a href="favorites" class="tab chosen"><span class="fa fa-star"></span> Favorite</a>
+                        <%end%>
+                        <a href="/waitlists"class="tab"><span class="fa fa-hourglass"></span> Waitlist</a>
+                        <a href="delivery"class="tab"><span class="fa fa-rocket"></span> Delivery</a>
+                        <a href="/waitlist_history"class="tab"><span class="fa fa-history"></span>History</a>
+                        <a href="setting"class="tab"><span class="fa fa-cog"></span>Setting</a>
+    				</div>
+    			</div>
+            </div>
+    		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+    			<div class="wrapper-right">
+                    <% if !@restaurants.empty? %>
+                    <% if flash[:notice] %>
+                        <p class='alert alert-danger text-center'><%=h flash[:notice] %></p>
+                    <% end %>
+                        <% @restaurants.each do |restaurant| %>
+                            <% if @users.find_by_id(restaurant.user_id) != nil %>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="card-view">
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="row">
+                                                <%= image_tag(@users.find_by_id(restaurant.user_id).avatar.url(:thumb), :class => "width-full")%>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                            <div class="card-content">
+                                                <div class="card-button">
+                                                <% if (user_signed_in? && !current_user.rest) %>
+                                                <a class="btn btn-bytlyn" href="./waitlists_new?rest_id=<%= restaurant.user_id %>">Waitlist</a>
+                                                <% elsif !user_signed_in? %>
+                                                    <a class="btn btn-bytlyn" href="./login">Waitlist</a>
+                                                <% end %>
+                                                </div>
+                                            <a href = './restaurant_page?rest_id=<%= restaurant.user_id %>'>
+                                                <div class="card-header">
+                                                    <%= @users.find_by_id(restaurant.user_id).name %>
+                                                </div>
+                                            </a>
+                                            <div class="card-info">
+                                                Price: 
+                                                <% for i in 1..restaurant.price.to_i do%>
+                                                    $
+                                                <% end%>
+                                            </div>
+                                            <div class="card-rating">
+                                                <% for i in 1..(Rating.average_rating(restaurant.id)+0.99).to_i.to_i do %>
+                                                    <span class="fa fa-star"></span>
+                                                <% end %>
+                                                <% for i in (Rating.average_rating(restaurant.id)+0.99).to_i.to_i+1..5 do %>
+                                                    <span class="fa fa-star-o"></span>
+                                                <% end %>
+                                            </div>
+                                            <div class="card-time">
+                                                <% hourDay =  Hour.where(rest_id: restaurant.user_id).where(day_id: Time.now.wday)%>
+                                                <% if !hourDay.blank? && hourDay.first.open != nil && hourDay.first.close != nil && hourDay.first.close.strftime("%H:%M") > Time.now.strftime("%H:%M") && hourDay.first.open.strftime("%H:%M") < Time.now.strftime("%H:%M") %>
+
+                                                    Open now!
+                                                <%else%>
+                                                    Currently Close.
+                                                <%end%>
+                                            </div>
+                                            <a href="./favorites_dest?rest_id=<%= restaurant.user_id %>" class="btn btn-red"> Remove Favorite </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    <% else %>
+                        <% if flash[:notice] -%>
+                            <p class='alert alert-danger text-center'><%=h flash[:notice] %></p>
+                        <% end %>
+                        <p class='alert alert-danger'>You have no favorite restaurants! <br>
+                        Check out our restaurant lists to add to favorites </p>
+                    <% end %>
+    			</div>
+    		</div>
+		</div>
+	</div>
+</main>

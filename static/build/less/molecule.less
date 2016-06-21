@@ -1,0 +1,62 @@
+// color function
+.colorize(@color) {
+	background-color: @color;
+	background-image: -webkit-linear-gradient(lighten(@color, 10%) 5%, lighten(@color, 5%) 10%, @color 100%);
+	background-image: linear-gradient(lighten(@color, 10%) 5%, lighten(@color, 5%) 10%, @color 100%);
+	color: @white;
+	border: 1px solid @gray;
+	cursor: pointer;
+	.smooth();
+	
+	&:hover, &:focus {
+		.smooth();
+		background-color: darken(@color, 5%);
+		background-image: -webkit-linear-gradient(@color 5%, darken(@color, 5%) 10%, darken(@color, 10%) 100%);
+		background-image: linear-gradient(@color 5%, darken(@color, 5%) 10%, darken(@color, 10%) 100%);
+	}
+	&.disable {
+		background-color: lighten(@color, 10%);
+		cursor: not-allowed;
+	}
+	&.chosen {
+		background-color: darken(@color, 5%);
+		cursor: pointer;
+	}
+}
+
+.menu {
+	.menu-tag {
+		padding: 20px;
+		.colorize(@gray);
+
+		&:hover,
+		&:focus {
+			border-left: 4px solid @yellow;
+		}
+		
+		.icon {
+			text-align: center;
+			width: 30px;
+		}
+	}
+}
+
+.side-pannel {
+	background-color: @bytlyn;
+	.tab {
+		display: inline-block;
+		width: 100%;
+		padding: 10px 20px;
+		border-bottom: 1px solid @gray-light;
+		cursor: pointer;
+		border-left: 0 solid @yellow;
+		.smooth();
+		&:hover {
+			border-left: 10px solid @yellow;
+			.smooth();
+		}
+		&.chosen {
+			border-left: 10px solid @yellow;
+		}
+	}
+}
